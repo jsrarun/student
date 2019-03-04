@@ -12,7 +12,7 @@ public class Role extends TimeStampableModel {
     private String name;
 
     @OneToMany(mappedBy = "role")
-    private List<User> users = new ArrayList<User>();
+    private List<User> users = new ArrayList<>();
 
     public List<User> getUsers() {
         return users;

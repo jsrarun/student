@@ -6,7 +6,7 @@ import javax.persistence.MappedSuperclass;
  * @author Arun Kaushik
  */
 @MappedSuperclass
-public class TimeStampableModel {
+public class TimeStampableModel extends DeleteableModel {
     private Long createdDate;
     private Long updatedDate;
 

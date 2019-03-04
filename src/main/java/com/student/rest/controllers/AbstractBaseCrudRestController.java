@@ -15,11 +15,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import java.util.List;
 
 /**
- * Created by Abhishek Samuel
- * Sr. Software Engineer
- * (Decipherzone Softwares LLP)
+ *
  */
-public abstract class AbstractBaseCrudRestController<E extends IdentityModel, Q extends RestResponse, M extends CrudRequest<E>, S extends Service<E, Q, R>, R extends Repository<E, Q>>
+public abstract class AbstractBaseCrudRestController<E extends IdentityModel, Q extends RestResponse,
+        M extends CrudRequest<E>, S extends Service<E, Q, R>, R extends Repository<E, Q>>
   extends AbstractBaseRestController<E, Q, S, R> {
 
   @GetMapping(value = "/{id}")
@@ -41,7 +40,6 @@ public abstract class AbstractBaseCrudRestController<E extends IdentityModel, Q 
   public E update(@RequestBody M model) {
     return this.service.update(model.convert());
   }
-
 
   @DeleteMapping(value = "/{id}")
   public void delete(@PathVariable String id) {

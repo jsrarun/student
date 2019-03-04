@@ -13,8 +13,6 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "student")
 public class Student extends IdentityModel {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private String firstName;
     private String lastName;
     private String address;

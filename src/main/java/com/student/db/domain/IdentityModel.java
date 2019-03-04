@@ -1,7 +1,6 @@
 package com.student.db.domain;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
+import javax.persistence.Column;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 
@@ -11,15 +10,15 @@ import javax.persistence.MappedSuperclass;
 @MappedSuperclass
 public class IdentityModel extends TimeStampableModel {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+    @Column(name = "id")
+    private String id;
 
     /**
      * Getter
      *
-     * @return : id
+     * @return id
      */
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
@@ -28,7 +27,7 @@ public class IdentityModel extends TimeStampableModel {
      *
      * @param id : id
      */
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
 }

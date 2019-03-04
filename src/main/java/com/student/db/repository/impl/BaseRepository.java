@@ -2,49 +2,69 @@ package com.student.db.repository.impl;
 
 import com.student.db.domain.TimeStampableModel;
 import com.student.db.repository.Repository;
+import com.student.exception.DbOperationException;
 import com.student.rest.response.RestResponse;
+import org.joda.time.DateTime;
 
-import javax.annotation.PostConstruct;
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
-import java.util.ArrayList;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.List;
 
 public abstract class BaseRepository<E extends TimeStampableModel, R extends RestResponse> implements Repository<E, R> {
-  @PostConstruct
-  public void init() {
-    try {
-      Type t = this.getClass().getGenericSuperclass();
-      ParameterizedType pt = (ParameterizedType) t;
-    } catch (Exception e) {
-      //TODO
+
+    @PersistenceContext
+    private EntityManager entityManager;
+    private String entityName;
+
+    /**
+     * @param entityClass : entity Class
+     */
+    public BaseRepository(Class<E> entityClass) {
+        this.entityName = entityClass.getName();
     }
-  }
 
-  @Override
-  public R findById(String id) {
-    return R;
-  }
+    @Override
+    public R findById(String id) {
+        String hqlQuery = "FROM " + this.entityName + "WHERE tbl.isDeleted =:isDeleted AND tbl.id =:id";
+        return (R)entityManager.createQuery(hqlQuery).setParameter("isDeleted", Boolean.FALSE).setParameter("id", id).getSingleResult();
+    }
 
-  @Override
-  public List<R> findAll() {
+    @Override
+    public List<R> findAll() {
+        String hqlQuery = "FROM " + this.entityName + "WHERE tbl.isDeleted =:isDeleted";
+        return (List<R>) entityManager.createQuery(hqlQuery).setParameter("isDeleted", Boolean.FALSE).getResultList();
+    }
 
-    return new ArrayList<R>();
-  }
+    @Override
+    public void delete(String id) {
 
+    }
+    @Override
+    public void save(E e) {
+        try {
+            if (e instanceof TimeStampableModel) {
+                TimeStampableModel t = e;
+                t.setCreatedDate(new DateTime().getMillis());
+            }
+            entityManager.persist(e);
+            entityManager.flush();
+        } catch (Exception ex) {
+            throw new DbOperationException(ex.getMessage());
+        }
+    }
 
-  @Override
-  public void delete(String id) {
-  }
-
-  @Override
-  public E save(E e) {
-    return e;
-  }
-
-  @Override
-  public E update(E e) {
-    return e;
-  }
+    @Override
+    public E update(E e) {
+        try {
+            if (e instanceof TimeStampableModel) {
+                TimeStampableModel t = e;
+                t.setUpdatedDate(new DateTime().getMillis());
+            }
+            entityManager.merge(e);
+            return e;
+        } catch (Exception ex) {
+            throw new DbOperationException(ex.getMessage());
+        }
+    }
 
 }

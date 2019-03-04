@@ -12,6 +12,7 @@ public class User extends TimeStampableModel {
 
     @Column(name = "username")
     private String username;
+
     private String password;
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)

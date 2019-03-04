@@ -8,7 +8,7 @@ import javax.persistence.MappedSuperclass;
  * {@link IdentityModel}
  */
 @MappedSuperclass
-public class DeleteableModel extends IdentityModel {
+public class DeleteableModel {
 
     private boolean isDeleted = Boolean.FALSE;
 

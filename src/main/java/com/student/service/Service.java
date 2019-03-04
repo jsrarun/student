@@ -1,17 +1,17 @@
 package com.student.service;
 
 
-import com.student.db.domain.TimeStampableModel;
+import com.student.db.domain.IdentityModel;
+import com.student.db.repository.Repository;
 import com.student.rest.response.RestResponse;
-import org.springframework.data.repository.Repository;
 
 import java.io.Serializable;
 import java.util.List;
 
-/**
- * @author Arun Kaushik
- */
-public interface Service<E extends TimeStampableModel, Q extends RestResponse, R extends Repository<E, Q>> extends Serializable {
+public interface Service<
+        E extends IdentityModel,
+        Q extends RestResponse,
+        R extends Repository<E, Q>> extends Serializable {
 
     /**
      * Find by id
@@ -37,10 +37,8 @@ public interface Service<E extends TimeStampableModel, Q extends RestResponse, R
 
     /**
      * Persist entity into DB
-     *
-     * @param e Entity<extends IdentityModel>
      */
-    E save(E e);
+    void save(E e);
 
     /**
      * Updates entity into DB
